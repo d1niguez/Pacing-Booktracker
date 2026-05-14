@@ -62,37 +62,18 @@
         </div>
 
         <h3 style = 'margin-top: 20px;'>Currently Reading</h3>
-        
-        <div class = 'book-card'> 
-            <p class = 'book-title'> The Lovely Bones</p>
-            <p class = 'book-author'> Alice Sebold </p>
-                <div class = 'progress-track'> 
-                    <div class= 'progress-fill'>
-                    </div>
-                </div>
-                <p> p. 49 of 500</p>
-                </div>
+
+    {% for book in books %}
+    <div class="book-card">
+        <p class="book-title">{{ book.title }}</p>
+        <p class="book-author">{{ book.author }}</p>
+        <div class="progress-track">
+            <div class="progress-fill"></div>
+        </div>
+        <p class="book-progress">p. {{ book.current_page }} of {{ book.total_pages }}</p>
+    </div>
+    {% endfor %}
      
-        <div class = 'book-card'> 
-            <p class = 'book-title'> A Court of Thrones and Roses</p>
-            <p class = 'book-author'> Sarah J. Mass r</p>
-                <div class = 'progress-track'> 
-                    <div class= 'progress-fill'>
-                    </div>
-                </div>
-                <p> p. 90 of 500</p>
-                </div>
-
-        <div class = 'book-card'> 
-            <p class = 'book-title'> The Fault in Our Stars</p>
-            <p class = 'book-author'> John Green </p>
-                <div class = 'progress-track'> 
-                    <div class= 'progress-fill'>
-                    </div>
-                </div>
-                <p> p. 55 of 500</p>
-                </div>
-
         <button class = 'add-book-btn'> + Add a book</button>
 
     </main>
