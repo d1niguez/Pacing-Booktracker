@@ -1,0 +1,194 @@
+ 
+ /*Main Body Styling*/
+ body {
+    margin: 0;
+    font-family: "EB Garamond", Garamond, "Palatino Linotype", "Book Antiqua", serif;
+    background-color: #EDE8E0;
+    box-sizing: border-box;
+}
+
+ /* Fixed Sidebar Styling*/
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 260px;
+        height: 100vh;
+        box-sizing: border-box;
+        background-color: #7A8B7B;
+        color: #ffffff;
+        padding: 30px 20px;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        border-radius: 0 10px 10px 0;
+        display: flex;
+        flex-direction: column;
+        z-index: 10;
+    }         
+
+    .sidebar h2 {
+        font-size: 20px;
+        margin-top: 0;
+        margin-bottom: 15px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .sidebar-menu {
+        margin-top: 50px;
+        display:flex;
+        flex-direction: column;
+        gap: 6px
+    }
+
+    .sidebar p {
+        color: #ffffff;
+        font-size: 14px;
+        margin: 5px;
+    }
+
+    .sidebar-btn {
+        background: rgba(255,255,255,0.15);
+        border: 1px solid #AAA;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+        color: #ffffff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: 'EB Garamond', Garamond, serif;
+        text-align: left;
+    }
+    .sidebar-footer{
+        margin-top: auto;
+    }
+/*Main Content Layout Styling*/
+    .main-content {
+        margin-left: 260px;
+        padding: 40px;
+        min-height: 100vh;
+        box-sizing: border-box
+    }
+
+    .main-content h1{
+        color: #1a1f2c;
+        margin-top:0
+    }
+
+    .main-content hr{
+        border:none;
+        border-top: 1px solid #d4cfc8;
+        margin: 0 0 24px 0;
+    }
+
+
+/*Stats Row Styling*/
+    .stats-row{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .stat-card{
+        background-color: #DCAE96;
+        border-radius: 8px;
+        padding: 14px 16px;
+        font-size: 15px;
+    }
+
+    .stat-label {
+        font-size: 13px;
+        color: #555;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .stat-number {
+        font-size: 32px;
+        color: #1a1f2c;
+        margin: 0;
+    }
+
+
+/* Book Card Styling*/
+    .book-card {
+        border-radius:8px;
+        background-color: antiquewhite;
+        padding: 14px 16px;
+        font-size: 15px;
+        margin-bottom: 10px;
+
+    }
+
+    .progress-track{
+        height: 3px;
+        background-color:#D3D3D3;
+        border-radius: 10px
+    }
+
+    .progress-fill{
+        height: 3px;
+        background-color:#7A8B7B;
+        border-radius: 10px;
+        width:60%
+    }
+
+    .book-title{
+        font-size:20px;
+        color:#555;
+        margin: 0;
+    }
+
+    .book-author{
+        font-size:15px;
+        color:#AAA;
+        margin: 0;
+        margin-bottom: 4px;
+    }
+
+    .book-progress{
+        margin:0;
+        margin-top: 1px;
+    }
+
+    .add-book-btn{
+        background: rgba(255,255,255,0.15);
+        box-sizing: border-box;
+        border: 1px solid #AAA;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: 'EB Garamond', Garamond, serif;
+        width: 100%
+    }
+
+    .profile-section{
+       background-color: transparent;
+       color: #ffffff;
+    }
+
+    .profile-avatar{
+        width: 80px;
+        height: 80px;
+        border-radius:50%;
+        background-color: rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .signout-button{
+        align-items:center;
+        justify-content:center;
+        display:flex;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid #AAA;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+        color: #ffffff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: 'EB Garamond', Garamond, serif;
+        width:100%
+    }

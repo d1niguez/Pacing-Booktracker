@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacing Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+
+<body>
+
+<!-- Interactive Rounded Sidebar Layout -->
+<aside class="sidebar"> 
+    <h2>Pacing</h2> 
+    <div class = 'profile-section'>
+        <div class = 'profile-avatar'> DI </div>
+        <p>Danna Iniguez</p>
+    </div>
+    
+    <!-- Navigation Links Menu -->
+    <nav class="sidebar-menu">
+        <button class = "sidebar-btn"> Profile </button>
+        <button class = "sidebar-btn"> Dashboard </button>
+        <button class = "sidebar-btn"> All Books </button>
+        <button class = "sidebar-btn"> Insights </button>
+        <button class= 'sidebar-btn'> Settings </button>
+    </nav>
+
+    <div class= 'sidebar-footer'>
+        <button class= 'signout-button'>Sign Out</button>
+    </div>
+
+</aside> 
+
+    <main class = 'main-content'>
+        <h1>Hello, Danna.</h1>
+        <p>Track your reading journey🌿</p>
+        <hr>
+
+        <div class = "stats-row">
+            <div class= "stat-card">
+                <p class = 'stat-label'>Pages today</p>
+                <p class = 'stat-number'>38</p>
+                <p class = 'stat-label'>GOAL: 50</p>
+            </div>
+
+            <div class="stat-card" >
+                <p class = 'stat-label'> Books in 2026</p>
+                <p class = 'stat-number'> 7 </p>
+                <p class = 'stat-label'> of 24 this year.</p>
+            </div>
+
+            <div class = "stat-card">
+                <p class = 'stat-label'> Average pace</p>
+                <p class = 'stat-number'> 24</p>
+                <p class = 'stat-label'> pages per day.</p>
+            </div>
+        
+        </div>
+
+        <h3 style = 'margin-top: 20px;'>Currently Reading</h3>
+        
+        <div class = 'book-card'> 
+            <p class = 'book-title'> The Lovely Bones</p>
+            <p class = 'book-author'> Alice Sebold </p>
+                <div class = 'progress-track'> 
+                    <div class= 'progress-fill'>
+                    </div>
+                </div>
+                <p> p. 49 of 500</p>
+                </div>
+     
+        <div class = 'book-card'> 
+            <p class = 'book-title'> A Court of Thrones and Roses</p>
+            <p class = 'book-author'> Sarah J. Mass r</p>
+                <div class = 'progress-track'> 
+                    <div class= 'progress-fill'>
+                    </div>
+                </div>
+                <p> p. 90 of 500</p>
+                </div>
+
+        <div class = 'book-card'> 
+            <p class = 'book-title'> The Fault in Our Stars</p>
+            <p class = 'book-author'> John Green </p>
+                <div class = 'progress-track'> 
+                    <div class= 'progress-fill'>
+                    </div>
+                </div>
+                <p> p. 55 of 500</p>
+                </div>
+
+        <button class = 'add-book-btn'> + Add a book</button>
+
+    </main>
+
+</body>
+</html>
