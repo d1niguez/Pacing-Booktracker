@@ -5,7 +5,7 @@
     font-family: "EB Garamond", Garamond, "Palatino Linotype", "Book Antiqua", serif;
     background-color: #EDE8E0;
     box-sizing: border-box;
-}
+    }
 
  /* Fixed Sidebar Styling*/
     .sidebar {
@@ -163,6 +163,7 @@
         width: 100%
     }
 
+/*Sidebar Header and Footer*/
     .profile-section{
        background-color: transparent;
        color: #ffffff;
@@ -190,5 +191,30 @@
         border-radius: 8px;
         cursor: pointer;
         font-family: 'EB Garamond', Garamond, serif;
-        width:100%
+        width:100%;
+    }
+/*Add Book Form Styling*/
+    .add-book-form{
+        background-color: #DCAE96;
+        border-radius: 8px;
+        padding: 14px 16px;
+        font-size: 15px;
+        max-width: 500px;
+        margin: 60px auto;
+    }
+
+    .add-book-form label{
+        display:block;
+        margin-bottom: 4px;
+    }
+
+    .add-book-form input {
+        display:block;
+        margin-bottom:12px;
+        width: 100%;
+    }
+
+    .add-book-form a {
+    display: block;
+    margin-top: 10px;
     }
