@@ -68,13 +68,13 @@
         <p class="book-title">{{ book.title }}</p>
         <p class="book-author">{{ book.author }}</p>
         <div class="progress-track">
-            <div class="progress-fill" style = 'width: {{book.current_page/book.total_pages*100}}%'></div>
+            <div class="progress-fill" style = 'width:{{book.current_page/book.total_pages*100}}%'></div>
         </div>
         <p class="book-progress">p. {{ book.current_page }} of {{ book.total_pages }}</p>
     </div>
     {% endfor %}
      
-        <button class = 'add-book-btn'> + Add a book</button>
+        <a href="/add_book_form"><button class = 'add-book-btn'> + Add a book</button></a>
 
     </main>
 
