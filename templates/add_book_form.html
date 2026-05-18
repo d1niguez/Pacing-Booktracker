@@ -11,23 +11,23 @@
         <h2 style="text-align: center">Add a Book</h2>
         <div class="add-book-form">
         <form action = '/add_book_form' method="POST">
-            <label for = 'title'>Title</label>
+            <label for = 'title'>Title *</label>
             <input type = "text" id = "title" name = "title" required>
 
-            <label for = "author">Author</label>
+            <label for = "author">Author *</label>
             <input type = "text" id = "author" name = "author" required>
 
             <label>ISBN</label>
             <input type=" number" id="isbn" name = "ISBN">
             
-            <label for = "current_page">Current Page</label>
+            <label for = "current_page">Current Page *</label>
             <input type = "number" id= "current_page" name = 'current_page' required>
 
-            <label for = 'total_pages'>Total Pages</label>
+            <label for = 'total_pages'>Total Pages *</label>
             <input type = "number" id ='total_pages' name = 'total_pages' required>
 
             <button type="submit" class="add-book-btn"> Add Book</button>
-            <a href="/" margin-top: 4px>← Back to dashboard</a> 
+            <a href="/">← Back to dashboard</a> 
         </form>
         </div>
 
