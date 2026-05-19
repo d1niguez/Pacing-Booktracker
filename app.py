@@ -11,12 +11,13 @@ class Book(db.Model):
            author = db.Column(db.String(200), nullable = False)
            current_page = db.Column(db.Integer, nullable = False)
            total_pages = db.Column(db.Integer, nullable = False)
+           finished = db.Column(db.Boolean, default = False)
            
 
 
 @app.route('/')
 def index():
-    books = Book.query.all()
+    books = Book.query.filter_by(finished = False).all()
     return render_template('dashboard.html', books=books)
 
 @app.route('/add_book_form', methods=['GET', 'POST'])
@@ -35,7 +36,6 @@ def add_book_form():
             )
         db.session.add(new_book)
         db.session.commit()
-
         return redirect(url_for('index'))
     return render_template('add_book_form.html')
 
@@ -57,6 +57,18 @@ def edit_book(id):
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('edit_book.html', book=book)
+
+@app.route('/finish/<int:id>', methods = ['POST'])
+def finish_book(id):
+     book = Book.query.get_or_404(id)
+     book.finished = True
+     db.session.commit()
+     return redirect(url_for('index'))
+
+@app.route('/completed_books')
+def completed_books():
+     books = Book.query.filter_by(finished = True).all()
+     return render_template('completed_books.html', books = books)
 
 
 with app.app_context():

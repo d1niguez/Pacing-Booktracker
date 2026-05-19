@@ -23,9 +23,9 @@
     <!-- Navigation Links Menu -->
     <nav class="sidebar-menu">
         <button class = "sidebar-btn"> Profile </button>
-        <button class = "sidebar-btn"> Dashboard </button>
+        <a href="{{ url_for('index') }}" class="sidebar-btn" style="text-decoration: none;"> Dashboard </a>
         <button class = "sidebar-btn"> Friends </button>
-        <button class = "sidebar-btn"> All Books </button>
+        <a href="{{url_for('completed_books')}}"class ='sidebar-btn' style = 'text-decoration:none;'> Completed Books</a>
         <button class = "sidebar-btn"> Clubs </button>
         <button class = "sidebar-btn"> Insights </button>
         <button class= 'sidebar-btn'> Settings </button>
@@ -75,9 +75,12 @@
         <p class="book-progress">p. {{ book.current_page }} of {{ book.total_pages }}</p>
          <form action = '/delete/{{book.id}}' method = 'POST'>
                 <button type = 'submit'>Delete</button>
-            </form>
+        </form>
             <a href = '/edit/{{book.id}}'><button type = 'button'>Edit</button></a>
-    </div>
+        <form action = '/finish/{{book.id}}' method = 'POST'>
+            <button type = 'submit'> Mark as Finished </button>
+        </form>
+        </div>
     {% endfor %}
      
         <a href="/add_book_form"><button class = 'add-book-btn'> + Add a book</button></a>
