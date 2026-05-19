@@ -24,7 +24,9 @@
     <nav class="sidebar-menu">
         <button class = "sidebar-btn"> Profile </button>
         <button class = "sidebar-btn"> Dashboard </button>
+        <button class = "sidebar-btn"> Friends </button>
         <button class = "sidebar-btn"> All Books </button>
+        <button class = "sidebar-btn"> Clubs </button>
         <button class = "sidebar-btn"> Insights </button>
         <button class= 'sidebar-btn'> Settings </button>
     </nav>
@@ -71,6 +73,10 @@
             <div class="progress-fill" style = 'width:{{book.current_page/book.total_pages*100}}%'></div>
         </div>
         <p class="book-progress">p. {{ book.current_page }} of {{ book.total_pages }}</p>
+         <form action = '/delete/{{book.id}}' method = 'POST'>
+                <button type = 'submit'>Delete</button>
+            </form>
+            <a href = '/edit/{{book.id}}'><button type = 'button'>Edit</button></a>
     </div>
     {% endfor %}
      

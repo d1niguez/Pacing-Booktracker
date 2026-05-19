@@ -13,13 +13,6 @@ class Book(db.Model):
            total_pages = db.Column(db.Integer, nullable = False)
            
 
-books = [
-    {"title": "The Lovely Bones", "author": "Alice Sebold", "current_page": 49, "total_pages": 500},
-    {"title": "A Court of Thorns and Roses", "author": "Sarah J. Maas", "current_page": 90, "total_pages": 500},
-    {"title": "The Fault in Our Stars", "author": "John Green", "current_page": 55, "total_pages": 500},
-]
-
-
 
 @app.route('/')
 def index():
@@ -45,6 +38,26 @@ def add_book_form():
 
         return redirect(url_for('index'))
     return render_template('add_book_form.html')
+
+@app.route('/delete/<int:id>', methods = ['POST'])
+def delete_book(id):
+     book = Book.query.get_or_404(id)
+     db.session.delete(book)
+     db.session.commit()
+     return redirect(url_for('index'))
+
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit_book(id):
+    book = Book.query.get_or_404(id)
+    if request.method == 'POST':
+        book.title = request.form['title']
+        book.author = request.form['author']
+        book.current_page = int(request.form['current_page'])
+        book.total_pages = int(request.form['total_pages'])
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('edit_book.html', book=book)
+
 
 with app.app_context():
      db.create_all()
