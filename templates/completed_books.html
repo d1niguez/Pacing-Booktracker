@@ -41,19 +41,18 @@
         <p> Here are the books you've finished.</p>
         <hr>
 
-    {% for book in books %}
-        <div class="book-card">
-                <p class="book-title">{{ book.title }}</p>
-                <p class="book-author">{{ book.author }}</p>
-
-                <form action="/delete/{{ book.id }}" method="POST">
-                    <button type="submit">Delete</button>
-                </form>
-            </div>
-        
-            {% else %}
-                <p>No completed books yet. Keep reading!🌿</p>
-            {% endfor %}
+{% for book in books %}
+    <div class="book-card">
+        <p class="book-title">{{ book.title }}</p>
+        <p class="book-author">{{ book.author }}</p>
+        <p> Completed {{book.date_completed.strftime('%B %d, %Y') }}</p>
+        <form action="/delete/{{ book.id }}" method="POST">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+{% else %}
+    <p>No completed books yet. Keep reading!🌿</p>
+{% endfor %}
         
             </main>
     </body>

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
@@ -12,6 +13,7 @@ class Book(db.Model):
            current_page = db.Column(db.Integer, nullable = False)
            total_pages = db.Column(db.Integer, nullable = False)
            finished = db.Column(db.Boolean, default = False)
+           date_completed = db.Column(db.DateTime, nullable = True)
            
 
 
@@ -62,6 +64,7 @@ def edit_book(id):
 def finish_book(id):
      book = Book.query.get_or_404(id)
      book.finished = True
+     book.date_completed = datetime.now()
      db.session.commit()
      return redirect(url_for('index'))
 
