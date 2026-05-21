@@ -51,13 +51,13 @@
 
             <div class="stat-card" >
                 <p class = 'stat-label'> Books in 2026</p>
-                <p class = 'stat-number'> 7 </p>
+                <p class = 'stat-number'> {{books_this_year}} </p>
                 <p class = 'stat-label'> of 24 this year.</p>
             </div>
 
             <div class = "stat-card">
                 <p class = 'stat-label'> Average pace</p>
-                <p class = 'stat-number'> 24</p>
+                <p class = 'stat-number'>24</p>
                 <p class = 'stat-label'> pages per day.</p>
             </div>
         
@@ -73,12 +73,13 @@
             <div class="progress-fill" style = 'width:{{book.current_page/book.total_pages*100}}%'></div>
         </div>
         <p class="book-progress">p. {{ book.current_page }} of {{ book.total_pages }}</p>
+        <p class="book-progress">Finish in ~{{ book.days_left() }} days</p>
          <form action = '/delete/{{book.id}}' method = 'POST'>
-                <button type = 'submit'>Delete</button>
+                <button type = 'submit' class="delete-btn" >Delete</button>
         </form>
-            <a href = '/edit/{{book.id}}'><button type = 'button'>Edit</button></a>
+            <a href = '/edit/{{book.id}}'><button type = 'button'class = 'edit-btn'>Edit</button></a>
         <form action = '/finish/{{book.id}}' method = 'POST'>
-            <button type = 'submit'> Mark as Finished </button>
+            <button type = 'submit'class= 'finished-btn'> Mark as Finished </button>
         </form>
         </div>
     {% endfor %}

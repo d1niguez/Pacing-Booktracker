@@ -15,12 +15,20 @@ class Book(db.Model):
            finished = db.Column(db.Boolean, default = False)
            date_completed = db.Column(db.DateTime, nullable = True)
            
+           def days_left(self,daily_pace=30):
+                pages_left = self.total_pages - self.current_page
+                return round(pages_left/daily_pace)
+           
 
 
 @app.route('/')
 def index():
     books = Book.query.filter_by(finished = False).all()
-    return render_template('dashboard.html', books=books)
+    books_this_year = Book.query.filter(
+         Book.date_completed >= datetime(2026,1,1)
+    ).count()
+    return render_template('dashboard.html', books=books, books_this_year = books_this_year)
+
 
 @app.route('/add_book_form', methods=['GET', 'POST'])
 def add_book_form():
