@@ -70,7 +70,7 @@
         <p class="book-title">{{ book.title }}</p>
         <p class="book-author">{{ book.author }}</p>
         <div class="progress-track">
-            <div class="progress-fill" style = 'width:{{book.current_page/book.total_pages*100}}%'></div>
+            <div class="progress-fill" style="width: {{ book.current_page / book.total_pages * 100 }}%"></div>
         </div>
         <p class="book-progress">p. {{ book.current_page }} of {{ book.total_pages }}</p>
         <p class="book-progress">Finish in ~{{ book.days_left() }} days</p>

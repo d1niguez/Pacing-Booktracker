@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
+from flask_login import LoginManager, UserMixin, login_user, logout_user,login_required,current_user
+from werkzeug.security import generate_password_hash,check_password_hash
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
+app.config['SECRET_KEY']='your-secret-key-here'
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 class Book(db.Model):
            id = db.Column(db.Integer, primary_key = True)
@@ -14,11 +19,47 @@ class Book(db.Model):
            total_pages = db.Column(db.Integer, nullable = False)
            finished = db.Column(db.Boolean, default = False)
            date_completed = db.Column(db.DateTime, nullable = True)
+           user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
            
            def days_left(self,daily_pace=30):
                 pages_left = self.total_pages - self.current_page
                 return round(pages_left/daily_pace)
            
+class User(db.Model,UserMixin):
+     id = db.Column(db.Integer,primary_key = True)
+     email = db.Column(db.String(200),unique=True, nullable = False)
+     password = db.Column(db.String(200),nullable = False)
+
+@login_manager.user_loader
+def load_user(user_id):
+     return User.query.get(int(user_id))
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+     if request.method =='POST':
+          email = request.form['email']
+          password = generate_password_hash(request.form['password'])
+          new_user = User(email = email, password = password)
+          db.session.add(new_user)
+          db.session.commit()
+          return redirect(url_for('login'))
+     return render_template('signup.html')
+
+@app.route('/login', methods = ['GET','POST'])
+def login():
+     if request.method == 'POST':
+          email = request.form['email']
+          password = request.form['password']
+          user = User.query.filter_by(email = email).first()
+          if user and check_password_hash(user.password, password):
+               login_user(user)
+               return redirect(url_for('index'))
+     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+     logout_user()
+     return redirect(url_for('login'))
 
 
 @app.route('/')
