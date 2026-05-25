@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+
+<body>
+    <h2>Welcome to Pacing</h2>
+    <p>The place to track your reading goals.</p>
+<div class = 'add-book-form'>
+    <form action = '/signup' method="POST">
+            <label for = 'email'>Email *</label>
+            <input type = "email" id = "email" name = "email" required>
+
+            <label for = "password">Password *</label>
+            <input type = "password" id = "password" name = "password" required>
+
+            <button type="submit" class="add-book-btn"> Sign Up</button>
+            <a href="/login">Already have an account? Log In.</a>
+    </form>
+</div>
+        
+</body>
+</html>

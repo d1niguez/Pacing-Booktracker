@@ -7,6 +7,8 @@ from werkzeug.security import generate_password_hash,check_password_hash
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
 app.config['SECRET_KEY']='your-secret-key-here'
+
+
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -29,32 +31,47 @@ class User(db.Model,UserMixin):
      id = db.Column(db.Integer,primary_key = True)
      email = db.Column(db.String(200),unique=True, nullable = False)
      password = db.Column(db.String(200),nullable = False)
+     books = db.relationship('Book',backref = 'owner',lazy = True)
 
 @login_manager.user_loader
 def load_user(user_id):
      return User.query.get(int(user_id))
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def signup():
+     if current_user.is_authenticated:
+          return redirect(url_for('index'))
+     
      if request.method =='POST':
           email = request.form['email']
           password = generate_password_hash(request.form['password'])
+
+          if User.query.filter_by(email=email).first():
+               print('Email already exists.')
+               return render_template('signup.html')
           new_user = User(email = email, password = password)
           db.session.add(new_user)
           db.session.commit()
           return redirect(url_for('login'))
      return render_template('signup.html')
 
-@app.route('/login', methods = ['GET','POST'])
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-     if request.method == 'POST':
-          email = request.form['email']
-          password = request.form['password']
-          user = User.query.filter_by(email = email).first()
-          if user and check_password_hash(user.password, password):
-               login_user(user)
-               return redirect(url_for('index'))
-     return render_template('login.html')
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = User.query.filter_by(email=email).first()
+
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('index'))
+        
+        # Optional: Add a flash message here for invalid credentials
+        print("Login failed: Invalid email or password")
+
+    return render_template('login.html')
+
 
 @app.route('/logout')
 def logout():
@@ -62,7 +79,8 @@ def logout():
      return redirect(url_for('login'))
 
 
-@app.route('/')
+@app.route('/dashboard')
+@login_required
 def index():
     books = Book.query.filter_by(finished = False).all()
     books_this_year = Book.query.filter(
