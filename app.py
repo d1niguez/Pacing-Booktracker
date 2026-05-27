@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
 from flask_login import LoginManager, UserMixin, login_user, logout_user,login_required,current_user
@@ -37,7 +37,7 @@ class User(db.Model,UserMixin):
 def load_user(user_id):
      return User.query.get(int(user_id))
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
      if current_user.is_authenticated:
           return redirect(url_for('index'))
@@ -47,6 +47,7 @@ def signup():
           password = generate_password_hash(request.form['password'])
 
           if User.query.filter_by(email=email).first():
+               flash ('User already exists!')
                print('Email already exists.')
                return render_template('signup.html')
           new_user = User(email = email, password = password)
@@ -78,14 +79,15 @@ def logout():
      logout_user()
      return redirect(url_for('login'))
 
-
+@app.route('/')
 @app.route('/dashboard')
 @login_required
 def index():
-    books = Book.query.filter_by(finished = False).all()
+    books = Book.query.filter_by(finished = False, user_id= current_user.id).all()
     books_this_year = Book.query.filter(
          Book.date_completed >= datetime(2026,1,1)
     ).count()
+
     return render_template('dashboard.html', books=books, books_this_year = books_this_year)
 
 
@@ -101,7 +103,8 @@ def add_book_form():
             title = title,
             author = author,
             current_page = int(current_page),
-            total_pages = int(total_pages)
+            total_pages = int(total_pages),
+            user_id = current_user.id
             )
         db.session.add(new_book)
         db.session.commit()

@@ -274,3 +274,15 @@
     text-decoration: none !important;
     width: 100%; 
 }
+
+.signup-login{
+    text-align:center;
+    padding: 40px;
+    min-height: 100vh;
+    box-sizing: border-box
+}
+
+.error {
+    color: red;
+    text-align: center;
+}

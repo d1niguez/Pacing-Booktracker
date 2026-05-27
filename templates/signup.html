@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 
 <html>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="error-box">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +18,7 @@
 
 
 <body>
+    <main class ='signup-login'>
     <h2>Welcome to Pacing</h2>
     <p>The place to track your reading goals.</p>
 <div class = 'add-book-form'>
@@ -24,6 +33,6 @@
             <a href="/login">Already have an account? Log In.</a>
     </form>
 </div>
-        
+    </main>
 </body>
 </html>
