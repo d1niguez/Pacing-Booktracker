@@ -23,10 +23,7 @@
     <!-- Navigation Links Menu -->
     <nav class="sidebar-menu">
         <a href="{{ url_for('index') }}" class="sidebar-btn" style="text-decoration: none;"> Dashboard </a>
-        <button class = "sidebar-btn"> Friends </button>
         <a href="{{url_for('completed_books')}}"class ='sidebar-btn' style = 'text-decoration:none;'> Completed Books</a>
-        <button class = "sidebar-btn"> Clubs </button>
-        <button class = "sidebar-btn"> Insights </button>
         <a href = "{{ url_for('profile') }}" class = 'sidebar-btn' style = 'text-decoration:none;'> Profile </a>
         <button class= 'sidebar-btn'> Settings </button>
     </nav>
@@ -45,7 +42,7 @@
         <div class = "stats-row">
             <div class= "stat-card">
                 <p class = 'stat-label'>Pages today</p>
-                <p class = 'stat-number'>38</p>
+                <p class = 'stat-number'>{{current_user.pages_read_today}}</p>
                 <p class = 'stat-label'>GOAL: {{current_user.daily_goal}}</p>
             </div>
 

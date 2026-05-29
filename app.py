@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
 from flask_login import LoginManager, UserMixin, login_user, logout_user,login_required,current_user
 from werkzeug.security import generate_password_hash,check_password_hash
+from datetime import date
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
@@ -31,12 +33,16 @@ class User(db.Model,UserMixin):
      id = db.Column(db.Integer,primary_key = True)
      email = db.Column(db.String(200),unique=True, nullable = False)
      password = db.Column(db.String(200),nullable = False)
+
      books = db.relationship('Book',backref = 'owner',lazy = True)
      display_name = db.Column(db.String(100), nullable = True)
      favorite_genre = db.Column(db.String(100))
      daily_goal = db.Column(db.Integer, default = 0)
      yearly_goal = db.Column(db.Integer, default = 0)
      daily_pace = db.Column(db.Integer, default = 0)
+
+     pages_read_today = db.Column(db.Integer, default = 0)
+     last_reset = db.Column(db.Date, default=None)
 
 @app.route('/profile', methods = ['GET','POST'])
 @login_required
@@ -102,12 +108,17 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def index():
-    books = Book.query.filter_by(finished = False, user_id= current_user.id).all()
-    books_this_year = Book.query.filter(
-         Book.date_completed >= datetime(2026,1,1)
+     today = date.today()
+     if current_user.last_reset != today:
+         current_user.pages_read_today = 0
+         current_user.last_reset = today
+         db.session.commit()
+     
+     books = Book.query.filter_by(finished = False, user_id= current_user.id).all()
+     books_this_year = Book.query.filter(
+          Book.date_completed >= datetime(2026,1,1)
     ).count()
-
-    return render_template('dashboard.html', books=books, books_this_year = books_this_year)
+     return render_template('dashboard.html', books=books, books_this_year = books_this_year)
 
 
 @app.route('/add_book_form', methods=['GET', 'POST'])
@@ -137,10 +148,21 @@ def delete_book(id):
      db.session.commit()
      return redirect(url_for('index'))
 
+
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit_book(id):
     book = Book.query.get_or_404(id)
+
     if request.method == 'POST':
+        #For Stat Card
+        old_page = book.current_page
+        new_page = int(request.form['current_page'])
+
+        #Track pages read today
+        pages_read = max(new_page - old_page, 0)
+        current_user.pages_read_today += pages_read
+
+        #Update Book
         book.title = request.form['title']
         book.author = request.form['author']
         book.current_page = int(request.form['current_page'])
@@ -148,6 +170,7 @@ def edit_book(id):
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('edit_book.html', book=book)
+
 
 @app.route('/finish/<int:id>', methods = ['POST'])
 def finish_book(id):
