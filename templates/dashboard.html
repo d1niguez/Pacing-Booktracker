@@ -17,17 +17,17 @@
     <h2>Pacing</h2> 
     <div class = 'profile-section'>
         <div class = 'profile-avatar'> DI </div>
-        <p>Danna Iniguez</p>
+        <p>{{current_user.display_name}}</p>
     </div>
     
     <!-- Navigation Links Menu -->
     <nav class="sidebar-menu">
-        <button class = "sidebar-btn"> Profile </button>
         <a href="{{ url_for('index') }}" class="sidebar-btn" style="text-decoration: none;"> Dashboard </a>
         <button class = "sidebar-btn"> Friends </button>
         <a href="{{url_for('completed_books')}}"class ='sidebar-btn' style = 'text-decoration:none;'> Completed Books</a>
         <button class = "sidebar-btn"> Clubs </button>
         <button class = "sidebar-btn"> Insights </button>
+        <a href = "{{ url_for('profile') }}" class = 'sidebar-btn' style = 'text-decoration:none;'> Profile </a>
         <button class= 'sidebar-btn'> Settings </button>
     </nav>
 
@@ -38,7 +38,7 @@
 </aside> 
 
     <main class = 'main-content'>
-        <h1>Hello, Danna.</h1>
+        <h1>Hello, {{current_user.display_name}}.</h1>
         <p>Track your reading journey🌿</p>
         <hr>
 
@@ -46,13 +46,13 @@
             <div class= "stat-card">
                 <p class = 'stat-label'>Pages today</p>
                 <p class = 'stat-number'>38</p>
-                <p class = 'stat-label'>GOAL: 50</p>
+                <p class = 'stat-label'>GOAL: {{current_user.daily_goal}}</p>
             </div>
 
             <div class="stat-card" >
                 <p class = 'stat-label'> Books in 2026</p>
                 <p class = 'stat-number'> {{books_this_year}} </p>
-                <p class = 'stat-label'> of 24 this year.</p>
+                <p class = 'stat-label'> of {{current_user.yearly_goal}} this year.</p>
             </div>
 
             <div class = "stat-card">

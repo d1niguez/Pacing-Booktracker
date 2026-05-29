@@ -32,6 +32,25 @@ class User(db.Model,UserMixin):
      email = db.Column(db.String(200),unique=True, nullable = False)
      password = db.Column(db.String(200),nullable = False)
      books = db.relationship('Book',backref = 'owner',lazy = True)
+     display_name = db.Column(db.String(100), nullable = True)
+     favorite_genre = db.Column(db.String(100))
+     daily_goal = db.Column(db.Integer, default = 0)
+     yearly_goal = db.Column(db.Integer, default = 0)
+     daily_pace = db.Column(db.Integer, default = 0)
+
+@app.route('/profile', methods = ['GET','POST'])
+@login_required
+def profile():
+     if request.method == 'POST':
+          current_user.display_name = request.form.get('display_name')
+          current_user.favorite_genre = request.form.get('favorite_genre')
+          current_user.daily_goal = int(request.form.get('daily_goal', 0))
+          current_user.yearly_goal = int(request.form.get('yearly_goal',0))
+
+          db.session.commit()
+          flash('Profile updated successfully!')
+          return redirect(url_for('profile'))
+     return render_template('profile.html', user = current_user)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -141,8 +160,7 @@ def finish_book(id):
 @app.route('/completed_books')
 def completed_books():
      books = Book.query.filter_by(finished = True).all()
-     return render_template('completed_books.html', books = books)
-
+     return render_template('completed_books.html', books = books)    
 
 with app.app_context():
      db.create_all()
