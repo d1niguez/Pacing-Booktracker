@@ -1,14 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+import os
+
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
 from flask_login import LoginManager, UserMixin, login_user, logout_user,login_required,current_user
 from werkzeug.security import generate_password_hash,check_password_hash
+from werkzeug.utils import secure_filename
 from datetime import date
-
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
 app.config['SECRET_KEY']='your-secret-key-here'
+
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['MAX_CONTENT_LENGTH'] = 2* 1024 * 1024 #2MB LIMIT
 
 
 db = SQLAlchemy(app)
@@ -29,6 +34,11 @@ class Book(db.Model):
                 pages_left = self.total_pages - self.current_page
                 return round(pages_left/daily_pace)
            
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+
+
 class User(db.Model,UserMixin):
      id = db.Column(db.Integer,primary_key = True)
      email = db.Column(db.String(200),unique=True, nullable = False)
@@ -44,6 +54,9 @@ class User(db.Model,UserMixin):
      pages_read_today = db.Column(db.Integer, default = 0)
      last_reset = db.Column(db.Date, default=None)
 
+     profile_photo = db.Column(db.String(300),default = 'default.png')
+
+
 @app.route('/profile', methods = ['GET','POST'])
 @login_required
 def profile():
@@ -53,6 +66,13 @@ def profile():
           current_user.daily_goal = int(request.form.get('daily_goal', 0))
           current_user.yearly_goal = int(request.form.get('yearly_goal',0))
 
+          if 'profile_photo' in request.files:
+               file = request.files ['profile_photo']
+               if file.filename != "":
+                    filename = secure_filename(file.filename)
+                    filepath = os.path.join(app.config['UPLOAD_FOLDER'],filename)
+                    file.save(filepath)
+                    current_user.profile_photo = filename
           db.session.commit()
           flash('Profile updated successfully!')
           return redirect(url_for('profile'))

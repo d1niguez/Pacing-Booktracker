@@ -13,7 +13,9 @@
 <aside class="sidebar"> 
     <h2>Pacing</h2> 
     <div class="profile-section">
-        <div class="profile-avatar"> DI </div>
+        <div class="profile-avatar">
+            <img src="/uploads/{{ user.profile_photo }}" width="80" style="border-radius: 50%;">
+            </div>
         <p>{{display_name}}</p>
     </div>
     
@@ -39,7 +41,11 @@
 
         <div class="add-book-form">
 
-<form method="POST">
+<form method = 'POST' enctype = 'multipart/form-data'>
+    <label> Profile Photo:</label>
+    <input type = 'file' name = 'profile_photo'>
+    <img src="/uploads/{{ user.profile_photo }}" width="150">
+
     <label>Display Name:</label>
     <input type="text" name="display_name" value="{{ user.display_name or '' }}">
 
