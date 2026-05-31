@@ -11,10 +11,10 @@
 
 
 <body>
-
-<!-- Interactive Rounded Sidebar Layout -->
+    <button class = "toggle-btn" onclick = "toggleSidebar()">☰</button>
+    <!-- Interactive Rounded Sidebar Layout -->
 <aside class="sidebar"> 
-    <h2>Pacing</h2> 
+    <h2>Pacing</h2>
     <div class = 'profile-section'>
         <div class = 'profile-avatar'> 
             <img src="/uploads/{{ current_user.profile_photo }}" width="80" style="border-radius: 50%;">
@@ -35,7 +35,6 @@
     </div>
 
 </aside> 
-
     <main class = 'main-content'>
         <h1>Hello, {{current_user.display_name}}.</h1>
         <p>Track your reading journey🌿</p>
@@ -86,6 +85,16 @@
         <a href="/add_book_form"><button class = 'add-book-btn'> + Add a book</button></a>
 
     </main>
+<script>
+    function toggleSidebar(){
+        const sidebar = document.querySelector('.sidebar');
+        const main = document.querySelector('.main-content');
+        const btn = document.querySelector('.toggle-btn');
+        sidebar.classList.toggle('hidden');
+        main.classList.toggle('expanded');
+        btn.classList.toggle('shifted')
+    }
+</script>
 
 </body>
 </html>
