@@ -50,11 +50,13 @@ class User(db.Model,UserMixin):
      daily_goal = db.Column(db.Integer, default = 0)
      yearly_goal = db.Column(db.Integer, default = 0)
      daily_pace = db.Column(db.Integer, default = 0)
+     date_joined = db.Column(db.Date, default=date.today)
 
      pages_read_today = db.Column(db.Integer, default = 0)
      last_reset = db.Column(db.Date, default=None)
 
      profile_photo = db.Column(db.String(300),default = 'default.png')
+
 
 
 @app.route('/profile', methods = ['GET','POST'])
@@ -134,11 +136,20 @@ def index():
          current_user.last_reset = today
          db.session.commit()
      
+     
+     days_active = (date.today() - current_user.date_joined).days or 1
+     total_pages = sum(book.current_page for book in current_user.books)
+     average_pace = round(total_pages/days_active) if total_pages > 0 else 0
+
      books = Book.query.filter_by(finished = False, user_id= current_user.id).all()
      books_this_year = Book.query.filter(
           Book.date_completed >= datetime(2026,1,1)
     ).count()
-     return render_template('dashboard.html', books=books, books_this_year = books_this_year)
+
+     return render_template('dashboard.html', 
+                            books=books, 
+                            books_this_year = books_this_year, 
+                            average_pace=average_pace)
 
 
 @app.route('/add_book_form', methods=['GET', 'POST'])
