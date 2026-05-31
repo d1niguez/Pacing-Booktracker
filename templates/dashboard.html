@@ -1,100 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
 
+{% block content %}
+<h1>Hello, {{ current_user.display_name }}.</h1>
+<p>Track your reading journey🌿</p>
+<hr>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pacing Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-
-
-<body>
-    <button class = "toggle-btn" onclick = "toggleSidebar()">☰</button>
-    <!-- Interactive Rounded Sidebar Layout -->
-<aside class="sidebar"> 
-    <h2>Pacing</h2>
-    <div class = 'profile-section'>
-        <div class = 'profile-avatar'> 
-            <img src="/uploads/{{ current_user.profile_photo }}" width="80" style="border-radius: 50%;">
+<div class="stats-row">
+    <div class="stat-card">
+        <p class="stat-label">Pages today</p>
+        <p class="stat-number">{{ current_user.pages_read_today }}</p>
+        <p class="stat-label">GOAL: {{ current_user.daily_goal }}</p>
+    </div>
+    <div class="stat-card">
+        <p class="stat-label">Books in 2026</p>
+        <p class="stat-number">{{ books_this_year }}</p>
+        <p class="stat-label">of {{ current_user.yearly_goal }} this year.</p>
+    </div>
+    <div class="stat-card">
+        <p class="stat-label">Average pace</p>
+        <p class="stat-number">{{ average_pace }}</p>
+        <p class="stat-label">pages per day.</p>
+    </div>
 </div>
-        <p>{{current_user.display_name}}</p>
+
+<h3 style="margin-top: 20px;">Currently Reading</h3>
+
+{% for book in books %}
+<div class="book-card">
+    <p class="book-title">{{ book.title }}</p>
+    <p class="book-author">{{ book.author }}</p>
+    <div class="progress-track">
+        <div class="progress-fill" style="width: {{ book.current_page / book.total_pages * 100 }}%"></div>
     </div>
-    
-    <!-- Navigation Links Menu -->
-    <nav class="sidebar-menu">
-        <a href="{{ url_for('index') }}" class="sidebar-btn" style="text-decoration: none;"> Dashboard </a>
-        <a href="{{url_for('completed_books')}}"class ='sidebar-btn' style = 'text-decoration:none;'> Completed Books</a>
-        <a href = "{{ url_for('profile') }}" class = 'sidebar-btn' style = 'text-decoration:none;'> Profile </a>
-        <button class= 'sidebar-btn'> Settings </button>
-    </nav>
+    <p class="book-progress">p. {{ book.current_page }} of {{ book.total_pages }}</p>
+    <p class="book-progress">Finish in ~{{ book.days_left() }} days</p>
+    <form action="/delete/{{ book.id }}" method="POST">
+        <button type="submit" class="delete-btn">Delete</button>
+    </form>
+    <a href="/edit/{{ book.id }}"><button type="button" class="edit-btn">Edit</button></a>
+    <form action="/finish/{{ book.id }}" method="POST">
+        <button type="submit" class="finished-btn">Mark as Finished</button>
+    </form>
+</div>
+{% endfor %}
 
-    <div class= 'sidebar-footer'>
-        <a href="{{url_for('logout')}}"class ='sidebar-btn' style = 'text-decoration:none;'> Sign Out</a>
-    </div>
-
-</aside> 
-    <main class = 'main-content'>
-        <h1>Hello, {{current_user.display_name}}.</h1>
-        <p>Track your reading journey🌿</p>
-        <hr>
-
-        <div class = "stats-row">
-            <div class= "stat-card">
-                <p class = 'stat-label'>Pages today</p>
-                <p class = 'stat-number'>{{current_user.pages_read_today}}</p>
-                <p class = 'stat-label'>GOAL: {{current_user.daily_goal}}</p>
-            </div>
-
-            <div class="stat-card" >
-                <p class = 'stat-label'> Books in 2026</p>
-                <p class = 'stat-number'> {{books_this_year}} </p>
-                <p class = 'stat-label'> of {{current_user.yearly_goal}} this year.</p>
-            </div>
-
-            <div class = "stat-card">
-                <p class = 'stat-label'> Average pace</p>
-                <p class = 'stat-number'>{{average_pace}}</p>
-                <p class = 'stat-label'> pages per day.</p>
-            </div>
-        
-        </div>
-
-        <h3 style = 'margin-top: 20px;'>Currently Reading</h3>
-
-    {% for book in books %}
-    <div class="book-card">
-        <p class="book-title">{{ book.title }}</p>
-        <p class="book-author">{{ book.author }}</p>
-        <div class="progress-track">
-            <div class="progress-fill" style="width: {{ book.current_page / book.total_pages * 100 }}%"></div>
-        </div>
-        <p class="book-progress">p. {{ book.current_page }} of {{ book.total_pages }}</p>
-        <p class="book-progress">Finish in ~{{ book.days_left() }} days</p>
-         <form action = '/delete/{{book.id}}' method = 'POST'>
-                <button type = 'submit' class="delete-btn" >Delete</button>
-        </form>
-            <a href = '/edit/{{book.id}}'><button type = 'button'class = 'edit-btn'>Edit</button></a>
-        <form action = '/finish/{{book.id}}' method = 'POST'>
-            <button type = 'submit'class= 'finished-btn'> Mark as Finished </button>
-        </form>
-        </div>
-    {% endfor %}
-     
-        <a href="/add_book_form"><button class = 'add-book-btn'> + Add a book</button></a>
-
-    </main>
-<script>
-    function toggleSidebar(){
-        const sidebar = document.querySelector('.sidebar');
-        const main = document.querySelector('.main-content');
-        const btn = document.querySelector('.toggle-btn');
-        sidebar.classList.toggle('hidden');
-        main.classList.toggle('expanded');
-        btn.classList.toggle('shifted')
-    }
-</script>
-
-</body>
-</html>
+<a href="/add_book_form"><button class="add-book-btn">+ Add a book</button></a>
+{% endblock %}

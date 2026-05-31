@@ -1,54 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Completed Books</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends 'base.html' %}
+{% block title %}Completed Books{% endblock %}
 
-<body>
-
-<!-- Interactive Rounded Sidebar Layout -->
-<aside class="sidebar"> 
-    <h2>Pacing</h2> 
-    <div class="profile-section">
-        <div class="profile-avatar"> DI </div>
-        <p>{{current_user.display_name}}</p>
-    </div>
-    
-    <!-- Navigation Links Menu -->
-    <nav class="sidebar-menu">
-        <a href="{{ url_for('index') }}" class="sidebar-btn" style="text-decoration: none;"> Dashboard </a>
-        <a href="{{url_for('completed_books')}}"class ='sidebar-btn' style = 'text-decoration:none;'> Completed Books</a>
-        <a href = "{{ url_for('profile') }}" class = 'sidebar-btn' style = 'text-decoration:none;'> Profile </a>
-        <button class= 'sidebar-btn'> Settings </button>
-    </nav>
-
-    <div class="sidebar-footer">
-        <button class="signout-button">Sign Out</button>
-    </div>
-
-</aside> 
-
-    <main class="main-content">
-        <h1> Your Finished Reading Journey!</h1>
-        <p> Here are the books you've finished.</p>
-        <hr>
+{% block content %}
+<h1>Your Finished Reading Journey!</h1>
+<p>Here are the books you've finished.</p>
+<hr>
 
 {% for book in books %}
-    <div class="book-card">
-        <p class="book-title">{{ book.title }}</p>
-        <p class="book-author">{{ book.author }}</p>
-        <p> Completed {{book.date_completed.strftime('%B %d, %Y') }}</p>
-        <form action="/delete/{{ book.id }}" method="POST">
-            <button type="submit">Delete</button>
-        </form>
-    </div>
+<div class="book-card">
+    <p class="book-title">{{ book.title }}</p>
+    <p class="book-author">{{ book.author }}</p>
+    <p>Completed {{ book.date_completed.strftime('%B %d, %Y') }}</p>
+    <form action="/delete/{{ book.id }}" method="POST">
+        <button type="submit">Delete</button>
+    </form>
+</div>
 {% else %}
-    <p>No completed books yet. Keep reading!🌿</p>
+<p>No completed books yet. Keep reading!🌿</p>
 {% endfor %}
-        
-            </main>
-    </body>
-    </html>
+{% endblock %}
