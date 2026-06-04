@@ -100,7 +100,7 @@ def signup():
           new_user = User(email = email, password = password)
           db.session.add(new_user)
           db.session.commit()
-          return redirect(url_for('login'))
+          return redirect(url_for('index'))
      return render_template('signup.html')
 
 
@@ -115,6 +115,9 @@ def login():
             login_user(user)
             return redirect(url_for('index'))
         
+        if not user or not check_password_hash(user.password, password):
+          flash('Invalid email or password')
+          return render_template('login.html')
         # Optional: Add a flash message here for invalid credentials
         print("Login failed: Invalid email or password")
 

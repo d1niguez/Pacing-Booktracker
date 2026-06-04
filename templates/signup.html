@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 
 <html>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <div class="error-box">
-      {{ messages[0] }}
-    </div>
-  {% endif %}
-{% endwith %}
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +12,15 @@
 <body>
     <main class ='signup-login'>
     <h2>Welcome to Pacing</h2>
+        
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <p class="error">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
     <p>The place to track your reading goals.</p>
 <div class = 'add-book-form'>
     <form action = '/signup' method="POST">
@@ -30,7 +31,7 @@
             <input type = "password" id = "password" name = "password" required>
 
             <button type="submit" class="add-book-btn"> Sign Up</button>
-            <a href="/login">Already have an account? Log In.</a>
+            <a href="/login" class="sidebar-btn" style="text-decoration : none;" >Already have an account? Log In.</a>
     </form>
 </div>
     </main>

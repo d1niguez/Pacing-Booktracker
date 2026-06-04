@@ -12,6 +12,15 @@
 <body>
     <main class = 'signup-login'>
     <h2>Welcome Back</h2>
+        
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <p class="error">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
     <p>The place to track your reading goals.</p>
 <div class = 'add-book-form'>
     <form action = '/login' method="POST">
@@ -22,7 +31,7 @@
             <input type = "password" id = "password" name = "password" required>
 
             <button type="submit" class="add-book-btn"> Log In</button>
-            <a href="/signup">Don't have an account? Sign up</a>
+            <a href="/signup" class="sidebar-btn" style="text-decoration: none;"> Don't have an account? Sign up</a>
     </form>
 </div>
     </main>
