@@ -180,6 +180,26 @@
         cursor: pointer;
         font-family: 'EB Garamond', Garamond, serif;
     }
+    .settings-delete-btn {
+        background: #E8A09A;
+        border: 1px solid #AAA;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: 'EB Garamond', Garamond, serif;
+        margin-top: 10px;
+        width: 100%;
+    }
+    .settings-save-btn {
+        background:#EDE8E0 ;
+        border: 1px solid #AAA;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: 'EB Garamond', Garamond, serif;
+        margin-top: 10px;
+        width: 100%;
+    }
 
     .edit-btn{
         position: absolute;

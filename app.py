@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
 from flask_login import LoginManager, UserMixin, login_user, logout_user,login_required,current_user
@@ -100,6 +100,7 @@ def signup():
           new_user = User(email = email, password = password)
           db.session.add(new_user)
           db.session.commit()
+          login_user(new_user)
           return redirect(url_for('index'))
      return render_template('signup.html')
 
@@ -153,6 +154,29 @@ def index():
                             books=books, 
                             books_this_year = books_this_year, 
                             average_pace=average_pace)
+
+@app.route('/settings', methods = ['GET', 'POST'])
+@login_required
+def settings():
+     if request.method == 'POST':
+          current_user.email = request.form['email']
+          new_password = request.form['password']
+          if new_password:
+               current_user.password = generate_password_hash(new_password)
+          db.session.commit()
+          flash('Settings updated!')
+          return redirect(url_for('settings'))
+     return render_template('settings.html')
+
+@app.route('/delete_account', methods = ['POST'])
+@login_required
+def delete_account():
+     user = User.query.get(current_user.id)
+     logout_user()
+     db.session.delete(user)
+     db.session.commit()
+     session.clear()
+     return redirect(url_for('signup'))
 
 
 @app.route('/add_book_form', methods=['GET', 'POST'])

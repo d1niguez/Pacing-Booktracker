@@ -14,16 +14,19 @@
     <h2>Pacing</h2>
     <div class="profile-section">
         <div class="profile-avatar">
-            <img src="/uploads/{{ current_user.profile_photo }}" width="80" style="border-radius: 50%;">
+            <img src="/uploads/{{ current_user.profile_photo }}" 
+            width="80" 
+            height="80"
+            style="border-radius: 50%; object-fit: cover;">
         </div>
-        <p>{{ current_user.display_name }}</p>
+        <p style="margin-top: 8px;">{{ current_user.display_name }}</p>
     </div>
 
     <nav class="sidebar-menu">
         <a href="{{ url_for('index') }}" class="sidebar-btn" style="text-decoration: none;">Dashboard</a>
         <a href="{{ url_for('completed_books') }}" class="sidebar-btn" style="text-decoration: none;">Completed Books</a>
         <a href="{{ url_for('profile') }}" class="sidebar-btn" style="text-decoration: none;">Profile</a>
-        <button class="sidebar-btn">Settings</button>
+        <a href="{{ url_for('settings') }}" class="sidebar-btn" style="text-decoration: none;">Settings</a>
     </nav>
 
     <div class="sidebar-footer">
